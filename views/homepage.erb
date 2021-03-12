@@ -55,19 +55,17 @@ h1 {
     $(".save_button").click(function () {
       var button = $(this);
       var edit_post = document.getElementsByClassName("edit_post_" + button[0].value)[0].value;
-      document.getElementById("new_content").value = edit_post;
+      document.getElementById("new_content_" + button[0].value).value = edit_post;
     });
 
   });
-  // function deleteFunction() {
-  //   confirm("Are you sure want to delete?");
-  // }
+
   function deleteFunction() {
-  if(!confirm("Do you really want to do this?")) {
-    return false;
+    if(!confirm("Do you really want to do this?")) {
+      return false;
+    }
+    this.form.submit();
   }
-  this.form.submit();
-}
 </script>
 
 </head>
@@ -92,7 +90,7 @@ h1 {
       <form action="/post/" method="POST">
         <input type="hidden" name="method" value ="PUT">
         <input type="hidden" name="post_id" value ="<%= post.id %>">
-        <input type="hidden" name="new_content" id="new_content" value ="">
+        <input type="hidden" name="new_content" id="new_content_<%= post.id %>" value ="">
         <button type="submit" style="visibility:hidden" class="save_button" name="savePost_<%= post.id %>" value="<%= post.id %>">Save</button>
       </form>
       <button style="visibility:hidden" class="cancel_button" name="cancelEditPost_<%= post.id %>" value="<%= post.id %>">Cancel</button>

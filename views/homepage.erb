@@ -1,0 +1,105 @@
+<head>
+<title> HomePage </title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<style>
+
+h1 {
+    text-align:center;
+}
+.content_post {
+    border: 3px solid #75c196;
+    border-radius: 5px;
+    margin: 10px auto;
+    padding: 10px;
+    width: 50%;
+}
+.new_post {
+    border: 3px solid #75c196;
+    border-radius: 5px;
+    margin: 10px auto;
+    padding: 10px;
+    width: 50%;
+}
+</style>
+
+<script type="text/javascript">
+
+  $(function() {
+
+    $(".edit_button").click(function () {
+      var button = $(this);
+      var read_post = document.getElementsByClassName("read_post_" + button[0].value);
+      var edit_post = document.getElementsByClassName("edit_post_" + button[0].value);
+      var save_button = document.getElementsByName("savePost_" + button[0].value);
+      var cancel_button = document.getElementsByName("cancelEditPost_" + button[0].value);
+      $(this)[0].style.visibility = "hidden";
+      read_post[0].style.visibility = "hidden";
+      edit_post[0].style.visibility = "visible";
+      save_button[0].style.visibility = "visible";
+      cancel_button[0].style.visibility = "visible";
+    });
+
+    $(".cancel_button").click(function () {
+      var button = $(this);
+      var read_post = document.getElementsByClassName("read_post_" + button[0].value);
+      var edit_post = document.getElementsByClassName("edit_post_" + button[0].value);
+      var save_button = document.getElementsByName("savePost_" + button[0].value);
+      var edit_button = document.getElementsByName("editPost_" + button[0].value);
+      $(this)[0].style.visibility = "hidden";
+      read_post[0].style.visibility = "visible";
+      edit_post[0].style.visibility = "hidden";
+      save_button[0].style.visibility = "hidden";
+      edit_button[0].style.visibility = "visible";
+    });
+
+    $(".save_button").click(function () {
+      var button = $(this);
+      var edit_post = document.getElementsByClassName("edit_post_" + button[0].value)[0].value;
+      document.getElementById("new_content").value = edit_post;
+    });
+
+  });
+  // function deleteFunction() {
+  //   confirm("Are you sure want to delete?");
+  // }
+  function deleteFunction() {
+  if(!confirm("Do you really want to do this?")) {
+    return false;
+  }
+  this.form.submit();
+}
+</script>
+
+</head>
+<body>
+  <span style="float:right;">
+    <a href="/logout">LOG OUT</a>
+  </span>
+  <h1>Hello, <%= user.name %></h1>
+  <form action="/posts" method="POST">
+    <div class='new_post'>
+      <textarea name="content" rows="5" style="width:100%"></textarea><br><br>
+      <input type="hidden" name="user_id" value ="<%= user.id %>" hidden>
+      <button type="submit">New Post</button>
+    </div>
+  </form>
+
+  <% posts.each do |post| %>
+    <div class='content_post'>
+      <p class='read_post_<%= post.id %>'><%= post.content %></p>
+      <textarea style="visibility:hidden" class='edit_post_<%= post.id %>' required><%= post.content %></textarea>
+      <button class="edit_button" name="editPost_<%= post.id %>" value="<%= post.id %>">Edit</button>
+      <form action="/editPost" method="POST">
+        <input type="hidden" name="post_id" value ="<%= post.id %>">
+        <input type="hidden" name="new_content" id="new_content" value ="">
+        <button type="submit" style="visibility:hidden" class="save_button" name="savePost_<%= post.id %>" value="<%= post.id %>">Save</button>
+      </form>
+      <button style="visibility:hidden" class="cancel_button" name="cancelEditPost_<%= post.id %>" value="<%= post.id %>">Cancel</button>
+      <form action="/post/" method="GET">
+        <input type="hidden" name="post_id" value ="<%= post.id %>">
+        <button onclick="deleteFunction()" type="submit" value="<%= post.id %>">Delete</button>
+      </form>
+    </div>
+  <% end %>
+  <br>
+</body>

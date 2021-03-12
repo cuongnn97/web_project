@@ -6,10 +6,12 @@ class PostsController
 
   def self.create(params)
     Post.create(content: params['content'], user_id: params['user_id'])
+    [302, {'Location' =>"http://localhost:8080/"}, []]
   end
 
   def self.delete(params)
     Post.delete(id: params['post_id'])
+    [302, {'Location' =>"http://localhost:8080/"}, []]
   end
 
   def self.update(params)

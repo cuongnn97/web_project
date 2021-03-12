@@ -89,7 +89,8 @@ h1 {
       <p class='read_post_<%= post.id %>'><%= post.content %></p>
       <textarea style="visibility:hidden" class='edit_post_<%= post.id %>' required><%= post.content %></textarea>
       <button class="edit_button" name="editPost_<%= post.id %>" value="<%= post.id %>">Edit</button>
-      <form action="/editPost" method="POST">
+      <form action="/post/" method="POST">
+        <input type="hidden" name="method" value ="PUT">
         <input type="hidden" name="post_id" value ="<%= post.id %>">
         <input type="hidden" name="new_content" id="new_content" value ="">
         <button type="submit" style="visibility:hidden" class="save_button" name="savePost_<%= post.id %>" value="<%= post.id %>">Save</button>
@@ -97,6 +98,7 @@ h1 {
       <button style="visibility:hidden" class="cancel_button" name="cancelEditPost_<%= post.id %>" value="<%= post.id %>">Cancel</button>
       <form action="/post/" method="GET">
         <input type="hidden" name="post_id" value ="<%= post.id %>">
+        <input type="hidden" name="method" value ="DELETE">
         <button onclick="deleteFunction()" type="submit" value="<%= post.id %>">Delete</button>
       </form>
     </div>

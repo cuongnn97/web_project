@@ -25,13 +25,11 @@ class RackApp
       env['warden'].logout
       [404, {"Content-Type" => "text/html"}, [SessionsController.new(req.params)]]
     when /posts/
-      [500, {"Content-Type" => "text/html"}, [PostsController.create(req.params)]]
-      Refresh.new.response
-    when /post/:id
-      if method == "DELETE"
-        [500, {"Content-Type" => "text/html"}, [PostsController.delete(req.params)]]
-        Refresh.new.response
-      elsif method == "PUT" or method == "PATCH"
+      PostsController.create(req.params)
+    when /post/
+      if req.params['method'] == "DELETE"
+        PostsController.delete(req.params)
+      elsif req.params['method'] == "PUT"
         PostsController.update(req.params)
       end
     when /init_register/
@@ -40,7 +38,7 @@ class RackApp
       [500, {"Content-Type" => "text/html"}, [UsersController.create(req.params)]]
     else
       user = env['warden'].user
-      SessionsController.check(user)
+      [500, {"Content-Type" => "text/html"}, [SessionsController.check(user)]]
     end
   end
 
@@ -63,11 +61,5 @@ app = Rack::Builder.new do
 
   run RackApp.new
 end
-
-# class Refresh
-#   def response
-#     [ 302, {'Location' =>"http://localhost:8080/"}, [] ]
-#   end
-# end
 
 Rack::Handler::Thin.run app

@@ -24,4 +24,9 @@ class User < Sequel::Model(conDB[:users])
     user.password == (Digest::SHA256.base64digest password) ? user : nil
   end
 
+  def self.find_friend(**attrs)
+    users = User.exclude(**attrs)
+    return users
+  end
+
 end

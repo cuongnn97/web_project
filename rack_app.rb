@@ -34,7 +34,6 @@ class RackApp
       PostsController.create(req.params)
 
     when /post/
-      binding.pry
       if req.params['method'] == "DELETE"
         PostsController.delete(req.params)
       elsif req.params['method'] == "PUT"

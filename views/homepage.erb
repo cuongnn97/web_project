@@ -13,12 +13,32 @@ h1 {
     padding: 10px;
     width: 50%;
 }
+.content_comment {
+    border: 3px solid blue;
+    border-radius: 5px;
+    margin: 10px auto;
+    padding: 10px;
+    width: 50%;
+}
 .new_post {
     border: 3px solid #75c196;
     border-radius: 5px;
     margin: 10px auto;
     padding: 10px;
     width: 50%;
+}
+
+.left-half {
+  position: absolute;
+  left: 0px;
+  width: 80%;
+}
+
+.right-half {
+  background-color: yellow;
+  position: absolute;
+  right: 0px;
+  width: 20%;
 }
 </style>
 
@@ -60,11 +80,21 @@ h1 {
 
   });
 
-  function deleteFunction() {
+  function deleteFunction(evt) {
     if(!confirm("Do you really want to do this?")) {
+      evt.preventDefault();
       return false;
     }
     this.form.submit();
+  }
+
+  function validateEditForm(post_id)
+  {
+    if(document.getElementsByClassName("edit_post_" + post_id)[0].value == "")
+    {
+      alert("Please type content");
+      return false;
+    }
   }
 </script>
 
@@ -74,32 +104,48 @@ h1 {
     <a href="/logout">LOG OUT</a>
   </span>
   <h1>Hello, <%= user.name %></h1>
-  <form action="/posts" method="POST">
-    <div class='new_post'>
-      <textarea name="content" rows="5" style="width:100%"></textarea><br><br>
-      <input type="hidden" name="user_id" value ="<%= user.id %>" hidden>
-      <button type="submit">New Post</button>
-    </div>
-  </form>
+  <div class="left-half">
+    <form action="/posts" method="POST">
+      <div class='new_post'>
+        <textarea name="content" rows="5" style="width:100%"></textarea><br><br>
+        <input type="hidden" name="user_id" value ="<%= user.id %>" hidden>
+        <button type="submit">New Post</button>
+      </div>
+    </form>
 
-  <% posts.each do |post| %>
-    <div class='content_post'>
-      <p class='read_post_<%= post.id %>'><%= post.content %></p>
-      <textarea style="visibility:hidden" class='edit_post_<%= post.id %>' required><%= post.content %></textarea>
-      <button class="edit_button" name="editPost_<%= post.id %>" value="<%= post.id %>">Edit</button>
-      <form action="/post/" method="POST">
-        <input type="hidden" name="method" value ="PUT">
-        <input type="hidden" name="post_id" value ="<%= post.id %>">
-        <input type="hidden" name="new_content" id="new_content_<%= post.id %>" value ="">
-        <button type="submit" style="visibility:hidden" class="save_button" name="savePost_<%= post.id %>" value="<%= post.id %>">Save</button>
-      </form>
-      <button style="visibility:hidden" class="cancel_button" name="cancelEditPost_<%= post.id %>" value="<%= post.id %>">Cancel</button>
-      <form action="/post/" method="GET">
-        <input type="hidden" name="post_id" value ="<%= post.id %>">
-        <input type="hidden" name="method" value ="DELETE">
-        <button onclick="deleteFunction()" type="submit" value="<%= post.id %>">Delete</button>
-      </form>
-    </div>
-  <% end %>
-  <br>
+    <% posts.each do |post| %>
+      <div class='content_post'>
+        <p class='read_post_<%= post.id %>'><%= post.content %></p>
+        <textarea style="visibility:hidden" class='edit_post_<%= post.id %>' required><%= post.content %></textarea>
+        <button class="edit_button" name="editPost_<%= post.id %>" value="<%= post.id %>">Edit</button>
+        <form action="/post/" method="POST" onsubmit="return validateEditForm(<%= post.id %>);">
+          <input type="hidden" name="method" value ="PUT">
+          <input type="hidden" name="post_id" value ="<%= post.id %>">
+          <input type="hidden" name="new_content" id="new_content_<%= post.id %>" value ="">
+          <button type="submit" style="visibility:hidden" class="save_button" name="savePost_<%= post.id %>" value="<%= post.id %>">Save</button>
+        </form>
+        <button style="visibility:hidden" class="cancel_button" name="cancelEditPost_<%= post.id %>" value="<%= post.id %>">Cancel</button>
+        <form action="/post/" method="GET">
+          <input type="hidden" name="post_id" value ="<%= post.id %>">
+          <input type="hidden" name="method" value ="DELETE">
+          <button onclick="deleteFunction()" type="submit" value="<%= post.id %>">Delete</button>
+        </form>
+        <% comments.each do |comment| %>
+          <% if comment.post_id.to_i == post.id %>
+            <p class="content_comment"><%= comment.user_id %> wrote: "<%= comment.content %>"</p>
+          <% end %>
+        <% end %>
+      </div>
+
+    <% end %>
+    <br>
+  </div>
+  <div class="right-half">
+    <h3>People you may know</h3><br>
+    <% friends.each do |friend| %>
+        <p><%= friend.name %></p><br>
+        <button type="submit" >Add friend</button>
+    <% end %>
+    <h3>Your friend</h3><br>
+  </div>
 </body>

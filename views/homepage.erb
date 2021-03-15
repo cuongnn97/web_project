@@ -80,12 +80,11 @@ h1 {
 
   });
 
-  function deleteFunction(evt) {
+  function deleteFunction() {
     if(!confirm("Do you really want to do this?")) {
-      evt.preventDefault();
       return false;
     }
-    this.form.submit();
+    return true;
   }
 
   function validateEditForm(post_id)
@@ -95,16 +94,20 @@ h1 {
       alert("Please type content");
       return false;
     }
+    return true;
   }
 </script>
 
 </head>
 <body>
+
   <span style="float:right;">
     <a href="/logout">LOG OUT</a>
   </span>
   <h1>Hello, <%= user.name %></h1>
+
   <div class="left-half">
+
     <form action="/posts" method="POST">
       <div class='new_post'>
         <textarea name="content" rows="5" style="width:100%"></textarea><br><br>
@@ -128,7 +131,7 @@ h1 {
         <form action="/post/" method="GET">
           <input type="hidden" name="post_id" value ="<%= post.id %>">
           <input type="hidden" name="method" value ="DELETE">
-          <button onclick="deleteFunction()" type="submit" value="<%= post.id %>">Delete</button>
+          <button onsubmit="return deleteFunction()" type="submit" value="<%= post.id %>">Delete</button>
         </form>
         <% comments.each do |comment| %>
           <% if comment.post_id.to_i == post.id %>
@@ -136,16 +139,42 @@ h1 {
           <% end %>
         <% end %>
       </div>
+    <% end %>
 
-    <% end %>
-    <br>
   </div>
+
   <div class="right-half">
+
     <h3>People you may know</h3><br>
-    <% friends.each do |friend| %>
-        <p><%= friend.name %></p><br>
-        <button type="submit" >Add friend</button>
-    <% end %>
+      <% friends.each do |friend| %>
+        <% if friend.type == "pending_first_second" %>
+          <p><%= friend[:name] %></p>
+          <button disabled>Requested</button>
+          <form action="/postaaaaa/" method="GET">
+            <button type="submit" >Cancel</button>
+          </form>
+        <% end %>
+      <% end %>
+      <% new_users.each do |new_user| %>
+          <p><%= new_user.name %></p>
+          <button type="submit">Add friend</button>
+      <% end %>
+
     <h3>Your friend</h3><br>
+      <% friends.each do |friend| %>
+        <% if friend.type == "friends" %>
+          <p><%= friend[:name] %></p><br>
+        <% end %>
+      <% end %>
+
+    <h3>Your friend's request</h3><br>
+      <% friends.each do |friend| %>
+        <% if friend.type == "pending_second_first" %>
+          <p><%= friend[:name] %></p>
+          <button type="submit" >Accept</button>
+          <button type="submit" >Decline</button>
+        <% end %>
+      <% end %>
   </div>
+
 </body>

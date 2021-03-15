@@ -4,6 +4,7 @@ require 'digest'
 require_relative '../models/post'
 require_relative '../models/user'
 require_relative '../models/comment'
+require_relative '../models/user_relationship'
 
 class SessionsController
 
@@ -18,9 +19,10 @@ class SessionsController
       message = ""
       return [500, {"Content-Type" => "text/html"}, [ERB.new(File.read("./views/sessions/new.erb")).result(binding)]]
     else
-      friends = User.find_friend(id: user.id)
+      friends = UserRelationship.find(user_first_id: user.id)
       posts = Post.find_by(user_id: user.id)
       comments = get_comment_by_posts(posts)
+      new_users = User.find_new_users(id: user.id)
       return [500, {"Content-Type" => "text/html"}, [ERB.new(File.read("./views/homepage.erb")).result(binding)]]
     end
   end
@@ -33,9 +35,10 @@ class SessionsController
       message = "Wrong username or password, type again"
       return [500, {"Content-Type" => "text/html"}, [ERB.new(File.read("./views/sessions/new.erb")).result(binding)]]
     else
-      friends = User.find_friend(id: user.id)
+      friends = UserRelationship.find(user_first_id: user.id)
       posts = Post.find_by(user_id: user.id)
       comments = get_comment_by_posts(posts)
+      new_users = User.find_new_users(id: user.id)
       return [500, {"Content-Type" => "text/html"}, [ERB.new(File.read("./views/homepage.erb")).result(binding)]]
     end
   end

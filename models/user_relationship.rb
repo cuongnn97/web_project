@@ -13,21 +13,21 @@ class UserRelationship < Sequel::Model(conDB[:user_relationship])
   end
 
   def self.delete(**attrs)
-    relationship_to_delete1 = UserRelationship.where(user_first_id: attrs[:user_first_id]).where(user_second_id: attrs[:user_second_id]).delete
-    relationship_to_delete2 = UserRelationship.where(user_first_id: attrs[:user_second_id]).where(user_second_id: attrs[:user_first_id]).delete
+    relationship_first_to_delete = UserRelationship.where(user_first_id: attrs[:user_first_id]).where(user_second_id: attrs[:user_second_id]).delete
+    relationship_second_to_delete = UserRelationship.where(user_first_id: attrs[:user_second_id]).where(user_second_id: attrs[:user_first_id]).delete
   end
 
   def self.create(**attrs)
-    new_relation1 = UserRelationship.new
-    new_relation1.user_first_id = attrs[:user_first_id]
-    new_relation1.user_second_id = attrs[:user_second_id]
-    new_relation1.type = "pending_first_second"
-    new_relation1.save
-    new_relation2 = UserRelationship.new
-    new_relation2.user_first_id = attrs[:user_second_id]
-    new_relation2.user_second_id = attrs[:user_first_id]
-    new_relation2.type = "pending_second_first"
-    new_relation2.save
+    first_relation = UserRelationship.new
+    first_relation.user_first_id = attrs[:user_first_id]
+    first_relation.user_second_id = attrs[:user_second_id]
+    first_relation.type = "pending_first_second"
+    first_relation.save
+    second_relation = UserRelationship.new
+    second_relation.user_first_id = attrs[:user_second_id]
+    second_relation.user_second_id = attrs[:user_first_id]
+    second_relation.type = "pending_second_first"
+    second_relation.save
   end
 
   def self.update(**attrs)

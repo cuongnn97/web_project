@@ -10,6 +10,7 @@ require "warden"
 require_relative './controllers/users_controller'
 require_relative './controllers/sessions_controller'
 require_relative './controllers/posts_controller'
+require_relative './controllers/relationships_controller'
 require_relative './controllers/warden'
 require_relative './models/user'
 
@@ -47,6 +48,18 @@ class RackApp
     when /register/
 
       UsersController.create(req.params)
+
+    when /delete_relation/
+
+      RelationshipsController.delete(req.params)
+
+    when /add_friend/
+
+      RelationshipsController.create(req.params)
+
+    when /accept_relation/
+
+      RelationshipsController.update(req.params)
 
     else
       user = env['warden'].user

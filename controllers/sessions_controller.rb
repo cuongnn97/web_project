@@ -8,10 +8,18 @@ require_relative '../models/user_relationship'
 
 class SessionsController
 
-  #Init login screen
   def self.new(params)
     message = ""
     return [500, {"Content-Type" => "text/html"}, [ERB.new(File.read("./views/sessions/new.erb")).result(binding)]]
+  end
+
+  def self.homepage_another(user, id)
+    friends = UserRelationship.find(user_first_id: user.id)
+    posts = Post.find_by(user_id: id[13..-1])
+    comments = get_comment_by_posts(posts)
+    new_users = User.find_new_users(id: user.id)
+    page_user = User.first(id: id[13..-1])
+    return [500, {"Content-Type" => "text/html"}, [ERB.new(File.read("./views/homepage_another.erb")).result(binding)]]
   end
 
   def self.check(user)
@@ -27,7 +35,6 @@ class SessionsController
     end
   end
 
-  #Action login button
   def self.create(params)
 
     user = User.find_first(name: params['username'], password: (Digest::SHA256.base64digest params['password']))

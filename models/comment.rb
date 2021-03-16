@@ -6,14 +6,16 @@ conDB = Sequel.sqlite('./sequelData.db')
 class Comment < Sequel::Model(conDB[:comments])
 
   def self.find_by(**attrs)
-    comments = Comment.where(**attrs)
+    conDB = Sequel.sqlite('./sequelData.db')
+    comments = Comment.join(conDB[:users], id: :user_id).where(**attrs)
     return comments
   end
 
   def self.create(**attrs)
     new_comments = Comment.new
-    new_comments.content = attrs[:content]
     new_comments.user_id = attrs[:user_id]
+    new_comments.post_id = attrs[:post_id]
+    new_comments.content = attrs[:comment_content]
     new_comments.save
   end
 

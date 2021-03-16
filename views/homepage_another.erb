@@ -104,35 +104,14 @@ h1 {
   <span style="float:right;">
     <a href="/logout">LOG OUT</a>
   </span>
-  <h1>Hello, <%= user.name %></h1>
-
+  <h1>Welcome <%= user.name %> to <%= page_user.name %>'s homepage</h1><br>
+  <div style="text-align:center;">
+    <a href="/">Back to homepage</a>
+  </div>
   <div class="left-half">
-
-    <form action="/posts" method="POST">
-      <div class='new_post'>
-        <textarea name="content" rows="5" style="width:100%"></textarea><br><br>
-        <input type="hidden" name="user_id" value ="<%= user.id %>" hidden>
-        <button type="submit">New Post</button>
-      </div>
-    </form>
-
     <% posts.each do |post| %>
       <div class='content_post'>
         <p class='read_post_<%= post.id %>'><%= post.content %></p>
-        <textarea style="visibility:hidden" class='edit_post_<%= post.id %>' required><%= post.content %></textarea>
-        <button class="edit_button" name="editPost_<%= post.id %>" value="<%= post.id %>">Edit</button>
-        <form action="/post/" method="POST" onsubmit="return validateEditForm(<%= post.id %>);">
-          <input type="hidden" name="method" value ="PUT">
-          <input type="hidden" name="post_id" value ="<%= post.id %>">
-          <input type="hidden" name="new_content" id="new_content_<%= post.id %>" value ="">
-          <button type="submit" style="visibility:hidden" class="save_button" name="savePost_<%= post.id %>" value="<%= post.id %>">Save</button>
-        </form>
-        <button style="visibility:hidden" class="cancel_button" name="cancelEditPost_<%= post.id %>" value="<%= post.id %>">Cancel</button>
-        <form action="/post/" method="GET">
-          <input type="hidden" name="post_id" value ="<%= post.id %>">
-          <input type="hidden" name="method" value ="DELETE">
-          <button onsubmit="return deleteFunction()" type="submit" value="<%= post.id %>">Delete</button>
-        </form>
         <% comments.each do |comment| %>
           <% if comment.post_id.to_i == post.id %>
             <p class="content_comment"><%= comment[:name] %> wrote: "<%= comment.content %>"</p>

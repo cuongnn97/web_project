@@ -11,6 +11,7 @@ require_relative './controllers/users_controller'
 require_relative './controllers/sessions_controller'
 require_relative './controllers/posts_controller'
 require_relative './controllers/relationships_controller'
+require_relative './controllers/comments_controller'
 require_relative './controllers/warden'
 require_relative './models/user'
 
@@ -60,6 +61,13 @@ class RackApp
     when /accept_relation/
 
       RelationshipsController.update(req.params)
+
+    when /homepage/
+      user = env['warden'].user
+      SessionsController.homepage_another(user, req.path_info)
+
+    when /comments/
+      CommentsController.create(req.params)
 
     else
       user = env['warden'].user

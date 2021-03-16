@@ -5,6 +5,7 @@ require_relative '../models/post'
 class PostsController
 
   def self.create(params)
+    binding.pry
     Post.create(content: params['content'], user_id: params['user_id'])
     [302, {'Location' =>"http://localhost:8080/"}, []]
   end

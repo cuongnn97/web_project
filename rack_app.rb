@@ -7,11 +7,12 @@ require "thin"
 require "pry"
 require 'pry-byebug'
 require "warden"
+require_relative './controllers/comments_controller'
 require_relative './controllers/users_controller'
 require_relative './controllers/sessions_controller'
 require_relative './controllers/posts_controller'
 require_relative './controllers/relationships_controller'
-require_relative './controllers/comments_controller'
+require_relative './controllers/reactions_controller'
 require_relative './controllers/warden'
 require_relative './models/user'
 
@@ -23,19 +24,18 @@ class RackApp
 
     when /login/
 
-      env['warden'].authenticate!
-      SessionsController.create(req.params)
+      SessionsController.create(req.params, env)
 
     when /logout/
 
-      env['warden'].logout
-      SessionsController.new(req.params)
+      SessionsController.new(req.params, env)
 
     when /posts/
 
       PostsController.create(req.params)
 
     when /post/
+
       if req.params['method'] == "DELETE"
         PostsController.delete(req.params)
       elsif req.params['method'] == "PUT"
@@ -63,15 +63,20 @@ class RackApp
       RelationshipsController.update(req.params)
 
     when /homepage/
-      user = env['warden'].user
-      SessionsController.homepage_another(user, req.path_info)
+
+      SessionsController.homepage_another(env, req.path_info)
 
     when /comments/
+
       CommentsController.create(req.params)
 
+    when /reaction/
+
+      ReactionsController.create(req.path_info)
+
     else
-      user = env['warden'].user
-      SessionsController.check(user)
+
+      SessionsController.check(env)
 
     end
 

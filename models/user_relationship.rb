@@ -13,20 +13,20 @@ class UserRelationship < Sequel::Model(conDB[:user_relationship])
   end
 
   def self.delete(**attrs)
-    relationship_first_to_delete = UserRelationship.where(user_first_id: attrs[:user_first_id]).where(user_second_id: attrs[:user_second_id]).delete
-    relationship_second_to_delete = UserRelationship.where(user_first_id: attrs[:user_second_id]).where(user_second_id: attrs[:user_first_id]).delete
+    UserRelationship.where(user_first_id: attrs[:user_first_id]).where(user_second_id: attrs[:user_second_id]).delete
+    UserRelationship.where(user_first_id: attrs[:user_second_id]).where(user_second_id: attrs[:user_first_id]).delete
   end
 
   def self.create(**attrs)
     first_relation = UserRelationship.new
+    second_relation = UserRelationship.new
     first_relation.user_first_id = attrs[:user_first_id]
     first_relation.user_second_id = attrs[:user_second_id]
     first_relation.type = "pending_first_second"
-    first_relation.save
-    second_relation = UserRelationship.new
     second_relation.user_first_id = attrs[:user_second_id]
     second_relation.user_second_id = attrs[:user_first_id]
     second_relation.type = "pending_second_first"
+    first_relation.save
     second_relation.save
   end
 

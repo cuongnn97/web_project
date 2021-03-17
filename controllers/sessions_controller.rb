@@ -11,6 +11,11 @@ require_relative './warden'
 class SessionsController
 
   def self.new(params, env)
+    message = ""
+    return [500, {"Content-Type" => "text/html"}, [ERB.new(File.read("./views/sessions/new.erb")).result(binding)]]
+  end
+
+  def self.delete(env)
     env['warden'].logout
     message = ""
     return [500, {"Content-Type" => "text/html"}, [ERB.new(File.read("./views/sessions/new.erb")).result(binding)]]
@@ -23,6 +28,7 @@ class SessionsController
     comments = get_comment_by_posts(posts)
     new_users = User.find_new_users(id: user.id)
     page_user = User.first(id: id[13..-1])
+    reactions = get_reaction_by_posts(posts)
     return [500, {"Content-Type" => "text/html"}, [ERB.new(File.read("./views/homepage_another.erb")).result(binding)]]
   end
 

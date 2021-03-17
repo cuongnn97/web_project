@@ -28,7 +28,7 @@ class RackApp
 
     when /logout/
 
-      SessionsController.new(req.params, env)
+      SessionsController.delete(env)
 
     when /posts/
 
@@ -42,13 +42,13 @@ class RackApp
         PostsController.update(req.params)
       end
 
-    when /init_register/
-
-      UsersController.new(req.params)
-
     when /register/
 
-      UsersController.create(req.params)
+      if req.params.count == 0
+        UsersController.new(req.params)
+      else
+        UsersController.create(req.params)
+      end
 
     when /delete_relation/
 

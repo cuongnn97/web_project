@@ -1,6 +1,7 @@
 <head>
 <title> HomePage </title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
 h1 {
@@ -43,6 +44,19 @@ h1 {
 </style>
 
 <script type="text/javascript">
+
+  $( document ).ready(function() {
+    "<% posts.each do |post| %>"
+      "<% reactions.each do |reaction| %>"
+        "<% if reaction.post_id.to_i == post.id %>"
+          "<% if reaction.user_id.to_i == user.id %>"
+            document.getElementById("icon_like_<%= post.id %>").className = "fa fa-thumbs-up fa-thumbs-down";
+            $("#like_button_<%= post.id %>").text("Liked");
+          "<% end %>"
+        "<% end %>"
+      "<% end %>"
+    "<% end %>"
+  });
 
   $(function() {
 
@@ -96,6 +110,19 @@ h1 {
     }
     return true;
   }
+
+  function likeFunction(x,id) {
+    x.classList.toggle("fa-thumbs-down");
+    if(document.getElementById("icon_like_"+id).className == "fa fa-thumbs-up"){
+      $("#like_button_"+id).text("Like");
+    }
+    else if(document.getElementById("icon_like_"+id).className == "fa fa-thumbs-up fa-thumbs-down"){
+      $("#like_button_"+id).text("Liked");
+    }
+    else{
+      $("#like_button_"+id).text("Like");
+    }
+  }
 </script>
 
 </head>
@@ -112,6 +139,18 @@ h1 {
     <% posts.each do |post| %>
       <div class='content_post'>
         <p class='read_post_<%= post.id %>'><%= post.content %></p>
+
+        <% reactions.each do |reaction| %>
+          <% if reaction.post_id.to_i == post.id %>
+            <%= reaction[:name] %>,
+          <% end %>
+        <% end %>
+        <br>
+        <a href="/reaction/id=<%= post.id %>/user=<%= user.id %>" style="text-decoration: none;color: black">
+          <i id="icon_like_<%= post.id %>" onclick="likeFunction(this,<%= post.id %>)" class="fa fa-thumbs-up"></i>
+          <span id="like_button_<%= post.id %>">Like</span>
+        </a>
+
         <% comments.each do |comment| %>
           <% if comment.post_id.to_i == post.id %>
             <p class="content_comment"><%= comment[:name] %> wrote: "<%= comment.content %>"</p>

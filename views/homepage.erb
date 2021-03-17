@@ -112,8 +112,7 @@ h1 {
     return true;
   }
 
-  function validateEditForm(post_id)
-  {
+  function validateEditForm(post_id) {
     if(document.getElementsByClassName("edit_post_" + post_id)[0].value == "")
     {
       alert("Please type content");
@@ -123,7 +122,6 @@ h1 {
   }
   function likeFunction(x,id) {
     x.classList.toggle("fa-thumbs-down");
-    debugger;
     if(document.getElementById("icon_like_"+id).className == "fa fa-thumbs-up"){
       $("#like_button_"+id).text("Like");
     }
@@ -134,6 +132,14 @@ h1 {
       $("#like_button_"+id).text("Like");
     }
   }
+
+  function submitLike(x) {
+
+    var x = x.children[0];   //this is returning the first of all elements that you have in your document body
+    var fisrtClass = x.className
+    alert(fisrtClass);
+  }
+
 
 </script>
 
@@ -180,7 +186,7 @@ h1 {
           <% end %>
         <% end %>
         <br>
-        <a href="/reaction/id=<%= post.id %>/user=<%= user.id %>" style="text-decoration: none;color: black">
+        <a onclick="submitLike(this)" href="/reaction/id=<%= post.id %>/user=<%= user.id %>" style="text-decoration: none;color: black">
           <i id="icon_like_<%= post.id %>" onclick="likeFunction(this,<%= post.id %>)" class="fa fa-thumbs-up"></i>
           <span id="like_button_<%= post.id %>">Like</span>
         </a>

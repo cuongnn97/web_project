@@ -1,11 +1,13 @@
 require 'erb'
 require 'sequel'
 require_relative '../models/post'
+require_relative './warden'
 
 class PostsController
 
-  def self.create(params)
-    Post.create(content: params['content'], user_id: params['user_id'])
+  def self.create(params, env)
+    user = env['warden'].user
+    Post.create(content: params['content'], user_id: user.id)
     [302, {'Location' =>"http://localhost:8080/"}, []]
   end
 

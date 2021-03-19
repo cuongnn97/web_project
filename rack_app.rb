@@ -32,7 +32,7 @@ class RackApp
 
     when /posts/
 
-      PostsController.create(req.params)
+      PostsController.create(req.params, env)
 
     when /post/
 
@@ -68,11 +68,11 @@ class RackApp
 
     when /comments/
 
-      CommentsController.create(req.params)
+      CommentsController.create(req.params, env)
 
     when /reaction/
 
-      ReactionsController.create(req.path_info)
+      ReactionsController.create(req.path_info, env)
 
     else
 

@@ -133,13 +133,6 @@ h1 {
     }
   }
 
-  function submitLike(x) {
-
-    var x = x.children[0];   //this is returning the first of all elements that you have in your document body
-    var fisrtClass = x.className
-  }
-
-
 </script>
 
 </head>
@@ -179,13 +172,10 @@ h1 {
           <button onsubmit="return deleteFunction()" type="submit" value="<%= post.id %>">Delete</button>
         </form>
 
-        <% model[:reactions].each do |reaction| %>
-          <% if reaction.post_id.to_i == post.id %>
-            <%= reaction[:name] %>,
-          <% end %>
-        <% end %>
+        <%= cell(:sessions).post_reactions(post.id, model[:reactions])%>
         <br>
-        <a onclick="submitLike(this)" href="/reaction/id=<%= post.id %>/user=<%= model[:user].id %>" style="text-decoration: none;color: black">
+
+        <a href="/reaction/id=<%= post.id %>/user=<%= model[:user].id %>" style="text-decoration: none;color: black">
           <i id="icon_like_<%= post.id %>" onclick="likeFunction(this,<%= post.id %>)" class="fa fa-thumbs-up"></i>
           <span id="like_button_<%= post.id %>">Like</span>
         </a>
@@ -205,57 +195,6 @@ h1 {
 
   </div>
 
-  <div class="right-half">
 
-    <h3>People you may know</h3><br>
-      <% model[:friends].each do |friend| %>
-        <% if friend.type == "pending_first_second" %>
-          <p><a href="/homepage/id=<%= friend[:id] %>"><%= friend[:name] %></a></p>
-          <button disabled>Requested</button>
-          <form action="/delete_relation/" method="GET">
-            <button type="submit" >Cancel</button>
-            <input type="hidden" name="user_first_id" value ="<%= model[:user].id %>">
-            <input type="hidden" name="user_second_id" value ="<%= friend[:id] %>">
-          </form>
-        <% end %>
-      <% end %>
-      <% model[:new_users].each do |new_user| %>
-          <p><a href="/homepage/id=<%= new_user.id %>"><%= new_user.name %></a></p>
-          <form action="/add_friend/" method="GET">
-            <button type="submit" >Add friend</button>
-            <input type="hidden" name="user_first_id" value ="<%= model[:user].id %>">
-            <input type="hidden" name="user_second_id" value ="<%= new_user.id %>">
-          </form>
-      <% end %>
-
-    <h3>Your friend</h3><br>
-      <% model[:friends].each do |friend| %>
-        <% if friend.type == "friends" %>
-          <p><a href="/homepage/id=<%= friend[:id] %>"><%= friend[:name] %></a></p>
-          <form action="/delete_relation/" method="GET">
-            <button type="submit" >Delete friend</button>
-            <input type="hidden" name="user_first_id" value ="<%= model[:user].id %>">
-            <input type="hidden" name="user_second_id" value ="<%= friend[:id] %>">
-          </form>
-        <% end %>
-      <% end %>
-
-    <h3>Your friend's request</h3><br>
-      <% model[:friends].each do |friend| %>
-        <% if friend.type == "pending_second_first" %>
-          <p><a href="/homepage/id=<%= friend[:id] %>"><%= friend[:name] %></a></p>
-          <form action="/accept_relation/" method="GET">
-            <button type="submit" >Accept</button>
-            <input type="hidden" name="user_first_id" value ="<%= model[:user].id %>">
-            <input type="hidden" name="user_second_id" value ="<%= friend[:id] %>">
-          </form>
-          <form action="/delete_relation/" method="GET">
-            <button type="submit" >Decline</button>
-            <input type="hidden" name="user_first_id" value ="<%= model[:user].id %>">
-            <input type="hidden" name="user_second_id" value ="<%= friend[:id] %>">
-          </form>
-        <% end %>
-      <% end %>
-  </div>
 
 </body>

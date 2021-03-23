@@ -10,13 +10,11 @@ class SessionsCell < Cell::ViewModel
   end
 
   def homepage
-    #render view: :homepage
     (render view: :homepage) + cell(:sessions).show_relation(model[:friends], model[:new_users], model[:user])
   end
 
 
   def homepage_another
-    #render view: :homepage_another
     (render view: :homepage_another) + cell(:sessions).show_relation(model[:friends], model[:new_users], model[:user])
   end
 
@@ -37,6 +35,20 @@ class SessionsCell < Cell::ViewModel
         if reaction.post_id.to_i == post_id
           string += reaction[:name]
           string += ', '
+        end
+      end
+    return string
+  end
+
+  def post_comments(post_id, comments)
+    string = ""
+      comments.each do |comment|
+        if comment.post_id.to_i == post_id
+          string += '<p class="content_comment">'
+          string += comment[:name]
+          string += ' wrote: "'
+          string += comment[:content]
+          string += '"</p>'
         end
       end
     return string

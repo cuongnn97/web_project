@@ -152,23 +152,15 @@ h1 {
       <div class='content_post'>
         <p class='read_post_<%= post.id %>'><%= post.content %></p>
 
-        <% model[:reactions].each do |reaction| %>
-          <% if reaction.post_id.to_i == post.id %>
-            <%= reaction[:name] %>,
-          <% end %>
-
-        <% end %>
+        <%= cell(:sessions).post_reactions(post.id, model[:reactions])%>
         <br>
         <a href="/reaction/id=<%= post.id %>/user=<%= model[:user].id %>" style="text-decoration: none;color: black">
           <i id="icon_like_<%= post.id %>" onclick="likeFunction(this,<%= post.id %>)" class="fa fa-thumbs-up"></i>
           <span id="like_button_<%= post.id %>">Like</span>
         </a>
 
-        <% model[:comments].each do |comment| %>
-          <% if comment.post_id.to_i == post.id %>
-            <p class="content_comment"><%= comment[:name] %> wrote: "<%= comment.content %>"</p>
-          <% end %>
-        <% end %>
+        <%= cell(:sessions).post_comments(post.id, model[:comments])%>
+
         <form action="/comments/" method="POST">
           <input type="hidden" name="post_id" value ="<%= post.id %>">
           <input type="hidden" name="user_id" value ="<%= model[:user] %>">

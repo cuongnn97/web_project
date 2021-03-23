@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem "sinatra"
-gem "puma"
 gem 'pry'
 gem 'pry-byebug'
 gem 'erb'
@@ -17,3 +16,6 @@ gem 'cgi'
 gem 'uri'
 gem 'digest'
 gem 'cells'
+gem 'trailblazer-cells', '~> 0.0.3'
+gem "cells-hamlit"
+gem 'cells-erb'

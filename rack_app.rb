@@ -7,6 +7,8 @@ require "thin"
 require "pry"
 require 'pry-byebug'
 require "warden"
+require 'cells'
+require 'cells-erb'
 require_relative './controllers/comments_controller'
 require_relative './controllers/users_controller'
 require_relative './controllers/sessions_controller'
@@ -14,6 +16,7 @@ require_relative './controllers/posts_controller'
 require_relative './controllers/relationships_controller'
 require_relative './controllers/reactions_controller'
 require_relative './controllers/warden'
+require_relative './cells/cell'
 require_relative './models/user'
 
 class RackApp

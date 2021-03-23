@@ -42,7 +42,7 @@ button:hover {
             <input type="text" placeholder="Enter Username" name="username" required><br>
             <label>Password : </label>
             <input type="password" placeholder="Enter Password" name="password" required><br>
-            <p style="color:red;font-size: 12px;"><%= message %></p>
+            <p style="color:red;font-size: 12px;"><%= model[:message] %></p>
             <br>
             <button type="submit">Login</button>
             <a href="/register">Register</a>

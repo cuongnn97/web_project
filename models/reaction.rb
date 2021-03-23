@@ -11,6 +11,11 @@ class Reaction < Sequel::Model(conDB[:reactions])
     return reactions
   end
 
+  def self.find_first(**attrs)
+    reactions = Reaction.first(**attrs)
+    return reactions
+  end
+
   def self.create(**attrs)
     new_reaction = Reaction.new
     new_reaction.post_id = attrs[:post_id]

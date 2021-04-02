@@ -67,7 +67,7 @@ class RackApp
 
     when /homepage/
 
-      SessionsController.homepage_another(env, req.path_info)
+      SessionsController.newfeed(env, req.path_info)
 
     when /comments/
 

@@ -14,8 +14,8 @@ class SessionsCell < Cell::ViewModel
   end
 
 
-  def homepage_another
-    (render view: :homepage_another) + cell(:sessions).show_relation(model[:friends], model[:new_users], model[:user])
+  def newfeed
+    (render view: :newfeed) + cell(:sessions).show_relation(model[:friends], model[:new_users], model[:user])
   end
 
   def register

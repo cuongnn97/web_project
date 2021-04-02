@@ -13,7 +13,7 @@ class SessionsController
 
   def self.new(params, env)
     message = ""
-    rreturn [500, {"Content-Type" => "text/html"}, [SessionsCell.new({message: ""}).new()]]
+    return [500, {"Content-Type" => "text/html"}, [SessionsCell.new({message: ""}).new()]]
   end
 
   def self.delete(env)
@@ -22,7 +22,7 @@ class SessionsController
     return [500, {"Content-Type" => "text/html"}, [SessionsCell.new({message: ""}).new()]]
   end
 
-  def self.homepage_another(env, id)
+  def self.newfeed(env, id)
     user = env['warden'].user
     friends = UserRelationship.find(user_first_id: user.id)
     posts = Post.find_by(user_id: id[13..-1])
@@ -30,7 +30,7 @@ class SessionsController
     new_users = User.find_new_users(id: user.id)
     page_user = User.first(id: id[13..-1])
     reactions = get_reaction_by_posts(posts)
-    return [500, {"Content-Type" => "text/html"}, [SessionsCell.new({user: user, friends: friends, posts: posts, comments: comments, new_users: new_users, reactions: reactions, page_user: page_user}).homepage_another()]]
+    return [500, {"Content-Type" => "text/html"}, [SessionsCell.new({user: user, friends: friends, posts: posts, comments: comments, new_users: new_users, reactions: reactions, page_user: page_user}).newfeed()]]
   end
 
   def self.check(env)

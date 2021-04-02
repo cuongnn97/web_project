@@ -1,0 +1,53 @@
+
+  <div class="right-half">
+
+    <h3>People you may know</h3><br>
+      <% options[:friends].each do |friend| %>
+        <% if friend.type == "pending_first_second" %>
+          <p><a href="/homepage/id=<%= friend[:id] %>"><%= friend[:name] %></a></p>
+          <button disabled>Requested</button>
+          <form action="/delete_relation/" method="GET">
+            <button type="submit" >Cancel</button>
+            <input type="hidden" name="user_first_id" value ="<%= options[:user_id].id %>">
+            <input type="hidden" name="user_second_id" value ="<%= friend[:id] %>">
+          </form>
+        <% end %>
+      <% end %>
+      <% options[:new_users].each do |new_user| %>
+          <p><a href="/homepage/id=<%= new_user.id %>"><%= new_user.name %></a></p>
+          <form action="/add_friend/" method="GET">
+            <button type="submit" >Add friend</button>
+            <input type="hidden" name="user_first_id" value ="<%= options[:user_id].id %>">
+            <input type="hidden" name="user_second_id" value ="<%= new_user.id %>">
+          </form>
+      <% end %>
+
+    <h3>Your friend</h3><br>
+      <% options[:friends].each do |friend| %>
+        <% if friend.type == "friends" %>
+          <p><a href="/homepage/id=<%= friend[:id] %>"><%= friend[:name] %></a></p>
+          <form action="/delete_relation/" method="GET">
+            <button type="submit" >Delete friend</button>
+            <input type="hidden" name="user_first_id" value ="<%= options[:user_id].id %>">
+            <input type="hidden" name="user_second_id" value ="<%= friend[:id] %>">
+          </form>
+        <% end %>
+      <% end %>
+
+    <h3>Your friend's request</h3><br>
+      <% options[:friends].each do |friend| %>
+        <% if friend.type == "pending_second_first" %>
+          <p><a href="/homepage/id=<%= friend[:id] %>"><%= friend[:name] %></a></p>
+          <form action="/accept_relation/" method="GET">
+            <button type="submit" >Accept</button>
+            <input type="hidden" name="user_first_id" value ="<%= options[:user_id].id %>">
+            <input type="hidden" name="user_second_id" value ="<%= friend[:id] %>">
+          </form>
+          <form action="/delete_relation/" method="GET">
+            <button type="submit" >Decline</button>
+            <input type="hidden" name="user_first_id" value ="<%= options[:user_id].id %>">
+            <input type="hidden" name="user_second_id" value ="<%= friend[:id] %>">
+          </form>
+        <% end %>
+      <% end %>
+  </div>

@@ -1,52 +1,326 @@
-<!DOCTYPE html>
-<html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title> Login Page </title>
-<style>
-button {
-    width: 150px;
-    color: orange;
-    padding: 15px;
-    margin: 10px 0px;
-    border: none;
-    cursor: pointer;
-}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.js"></script>
 
-input[type=text], input[type=password] {
-    margin: 8px 0;
-    padding: 12px 20px;
-    display: inline-block;
-    border: 2px solid green;
-    box-sizing: border-box;
-}
-button:hover {
-    opacity: 0.7;
-}
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-.container {
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-    padding: 25px;
-    background-color: lightblue;
-    text-align: center;
-}
-</style>
+  <!-- Site Properties -->
+  <title>Login Example - Semantic</title>
+
+  <style type="text/css">
+    body {
+      background-color: #f0f2f5;
+      font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+    }
+
+    section {
+      color: #fff;
+      text-align: center;
+    }
+
+    div {
+      height: 100%;
+    }
+
+    article {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      padding: 20px;
+    }
+    .container {
+      width: 100%;
+    }
+
+    .left-half {
+      position: absolute;
+      left: 0px;
+      width: 50%;
+    }
+
+    .right-half {
+      position: absolute;
+      right: 0px;
+      width: 50%;
+    }
+    .content-left {
+      width: 70%;
+      margin-left: 250px;
+    }
+    .content-right {
+      width: 70%;
+      margin: auto;
+    }
+    .p1 {
+      font-size: 28px;
+      font-weight: normal;
+      line-height: 32px;
+      color: #333;
+      margin-bottom: 0px;
+    }
+    .p2 {
+      color: #606770;
+      font-size: 15px;
+      line-height: 24px;
+      font-weight: normal;
+      margin-left: 50px;
+    }
+    .login_form {
+
+        background-color: #fff;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+        box-sizing: border-box;
+        margin: 150px 0 0;
+        width: 396px;
+        height: 349px;
+
+    }
+    .ui.input {
+      width: 364px;
+      height: 52px;
+    }
+    .field-icon {
+      float: right;
+      margin-left: -25px;
+      margin-top: 17px;
+      position: relative;
+      z-index: 2;
+    }
+    .login_button {
+      background-color: #1877f2;
+      border: none;
+      border-radius: 6px;
+      font-size: 20px;
+      line-height: 48px;
+      padding: 0 16px;
+      width: 364px;
+      color:white;
+    }
+     ._8icz {
+      align-items: center;
+      border-bottom: 1px solid #dadde1;
+      display: flex;
+      margin: 20px 16px;
+      text-align: center;
+      height: 1px;
+    }
+    .positive.ui.button {
+      width: 178px;
+      height:48px;
+      font-size: 16px;
+    }
+    .reg_pages {
+      width: 396px;
+      border-top: none;
+      color: #1c1e21;
+      font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: normal;
+      padding-top: 0;
+    }
+    ._8esh {
+      font-family: SFProText-Semibold, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color:black;
+    }
+    .form-popup {
+      /* display: none; */
+      position: fixed;
+      border: 3px solid #f1f1f1;
+      background-color: white;
+      width: 432px;
+      height: 509px;
+      margin-left: 700px;
+      margin-top: 150px;
+      text-align: left;
+    }
+    ._52lq {
+      color: #1c1e21;
+      font-family: SFProDisplay-Bold, Helvetica, Arial, sans-serif;
+      font-size: 32px;
+      line-height: 38px;
+      margin-bottom: 0;
+      font-weight: 600;
+      width: 400px;
+      height: 38px;
+      padding-left: 15px;
+      padding-top: 5px;
+    }
+    ._52lr {
+      color: #606770;
+      font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      line-height: 24px;
+      margin-bottom: 12px;
+      width: 400px;
+      height: 24px;
+      padding-left: 15px;
+      padding-top: 5px;
+    }
+    ._8fgl {
+      background-color: #fff;
+      border-radius: 0 0 8px 8px;
+      border-top: 1px solid #dadde1;
+      box-sizing: border-box;
+      padding: 16px;
+      position: relative;
+      width: 425px;
+
+    }
+    ._58mv {
+      color: #777;
+      font-size: 11px;
+      width: 425px;
+      padding-right:50px;
+    }
+    ._8fgl .positive.ui.button {
+      width: 194px;
+      height:36px;
+      font-size: 15px;
+
+    }
+  </style>
+  <script type="text/javascript">
+
+    $(document).ready(function () {
+      document.getElementById("myForm").style.display = "none";
+      $(".toggle-password").hide();
+    });
+    $(function () {
+      $(".toggle-password").click(function () {
+
+          $(this).toggleClass("fa-eye fa-eye-slash");
+          var input = $($(this).attr("toggle"));
+          if (input.attr("type") == "password") {
+            input.attr("type", "text");
+          } else {
+            input.attr("type", "password");
+          }
+      });
+      $(".password_input").on('input', function () {
+        if($(".password_input").val() == "") {
+          $(".toggle-password").hide();
+          $($(".toggle-password").attr("toggle")).attr("type", "password");
+        }
+        else {
+          $(".toggle-password").show();
+        }
+
+      });
+    });
+
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+      $(".container").css({ "pointer-events": "none" });
+      $(".container").css({ "opacity": "0.4" });
+    }
+
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+      $(".container").css({ "pointer-events": "auto" });
+      $(".container").css({ "opacity": "1" });
+    }
+  </script>
 </head>
+
 <body>
-    <center> <h1> Facebook </h1> </center>
-    <form action="/login" method="POST">
-        <div class="container">
-            <label>Username : </label>
-            <input type="text" placeholder="Enter Username" name="username" required><br>
-            <label>Password : </label>
-            <input type="password" placeholder="Enter Password" name="password" required><br>
-            <p style="color:red;font-size: 12px;"><%= model[:message] %></p>
-            <br>
-            <button type="submit">Login</button>
-            <a href="/register">Register</a>
+  <section class="container">
+    <div class="left-half">
+      <div class="content-left">
+        <img src="./images/facebook.svg" style="width:200px;padding-top: 100px;margin-left: -80px">
+        <br><p class="p1">Đăng nhập gần đây</p>
+        <p class="p2">Nhấp vào ảnh của bạn hoặc thêm tài khoản.</p>
+        <div class="ui link cards">
+          <div class="card" style="width: 160px;height:210px;margin-left: 200px;">
+            <div class="image" style="background-color:white;">
+              <img src="https://drive.google.com/file/d/1I0G-Iz2GqKkkCgaMGHKUom6ldAaptLWF/view?usp=sharing"/>
+              <div class="content">
+                <div class="header" style="color: #4b4f56;font-size:18px"><br>Cuong</div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="width: 160px;height:210px;">
+            <div class="image" style="background-color:white;">
+              <img src="./images/new_user.png">
+              <div class="content">
+                <div class="header" style="font-size:18px;color:#1877f2"><br>Thêm tài khoản</div>
+              </div>
+            </div>
+          </div>
         </div>
+
+      </div>
+    </div>
+    <div class="right-half">
+      <div class="content-right">
+        <div class="login_form">
+        <form action="/login" method="POST">
+          <br>
+          <form>
+          <div class="ui input">
+            <input name="username" type="text" placeholder="Email hoặc số điện thoại" style="border-radius: 8px;">
+          </div>
+          <br>
+          <br>
+          <div class="ui input">
+            <input id="password-field" class="password_input" type="password" name="password" placeholder="Mật khẩu"  style="border-radius: 8px;">
+            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password">
+              <img src="./images/eyes.png" style="width: 20px;height:20px;" >
+            </span>
+          </div>
+          <br><br>
+          <button type="submit" class="login_button" >Đăng nhập</button><br><br>
+          <a href="#" style="color: #1877f2;font-size: 14px;">Quên mật khẩu?</a>
+          <div class="_8icz"></div>
+          </form>
+          <button class="positive ui button" onclick="openForm()" >Tạo tài khoản mới</button>
+        </div><br><br>
+        <div class="reg_pages">
+          <a href="" class="_8esh">Tạo Trang</a>
+          dành cho người nổi tiếng, nhãn hiệu hoặc doanh nghiệp.
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="form-popup" id="myForm">
+    <form action="/action_page.php" class="form-container">
+      <img onclick="closeForm()" src="https://static.xx.fbcdn.net/rsrc.php/v3/y2/r/__geKiQnSG-.png" style="top: 12px;z-index: 2;position: absolute;;right: 10px;height:24px;">
+      <div class="_52lp">
+        <div class="_52lq">Đăng ký</div>
+        <div class="_52lr">Nhanh chóng và dễ dàng.</div>
+        <div class="_8fgl">
+          <div class="ui input">
+            <input type="text" placeholder="Số di động hoặc email" style="border-radius: 8px;">
+          </div>
+          <br>
+          <br>
+          <div class="ui input">
+            <input id="password-field" type="password" name="password" placeholder="Mật khẩu mới"
+              style="border-radius: 8px;">
+          </div>
+          <br><br>
+          <p class="_58mv">Bằng cách nhấp vào Đăng ký, bạn đồng ý với <a href="#" id="terms-link"
+              target="_blank" rel="nofollow">Điều khoản</a>, <a href="#" id="privacy-link" target="_blank"
+              rel="nofollow">Chính sách dữ liệu</a> và <a href="#" id="cookie-use-link" target="_blank"
+              rel="nofollow">Chính sách cookie</a> của chúng tôi. Bạn có thể nhận được thông báo của chúng tôi qua SMS và hủy nhận
+            bất kỳ lúc nào.</p>
+            <div class="register_button" style="text-align: center;">
+              <button class="positive ui button">Đăng ký</button>
+            </div>
+        </div>
+      </div>
+
     </form>
+  </div>
 </body>
-</html>
